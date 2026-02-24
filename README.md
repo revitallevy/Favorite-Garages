@@ -68,3 +68,10 @@ https://localhost:7218/api
 - Duplicate prevention implemented at service level and database level.
 - No direct client calls to the government API.
 - Focused on clean, minimal enterprise architecture.
+
+## AI Usage
+
+ChatGPT was used as a development assistant during the project.
+
+Conversation link:
+https://chatgpt.com/share/https://chatgpt.com/share/699dd624-5390-8006-ac91-bb7235a2e02a
