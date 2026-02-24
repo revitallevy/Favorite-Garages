@@ -35,7 +35,7 @@ namespace Migdal.Garages.Api.Controllers
         public async Task<IActionResult> Add([FromBody] List<AddFavoriteGarageDto> garages)
         {
             await favoriteService.AddAsync(garages);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>

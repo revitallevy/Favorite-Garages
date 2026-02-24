@@ -8,9 +8,15 @@ namespace Migdal.Garages.Api.Services
     {
         public async Task AddAsync(List<AddFavoriteGarageDto> garages)
         {
+            var uniqueGarages = garages
+                .GroupBy(g => g.ExternalGarageId)
+                .Select(g => g.First())
+                .ToList();
+
+
             var garagesList = new List<FavoriteGarage>();
 
-            foreach (var garage in garages)
+            foreach (var garage in uniqueGarages)
             {
                 var exists = await garagesRepository.ExistsAsync(garage.ExternalGarageId);
 

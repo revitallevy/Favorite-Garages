@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <h1 class="text-2xl font-bold mb-6">
+    Government Garages
+  </h1>
+  <div class="mb-4">
+    <button
+      (click)="addSelectedToFavorites()"
+      [disabled]="selected().size === 0 || isSaving()"
+      class="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50">
+      @if (isSaving()) { Saving... } @else { Add to Favorites }
+    </button>
+  </div>
+
+   <div class="mb-4 flex items-center gap-2">
+      <input
+        type="checkbox"
+        [checked]="showFavoritesOnly()"
+        (change)="showFavoritesOnly.set(!showFavoritesOnly())" />
+      <label class="text-sm font-medium">
+        Show Favorites Only
+      </label>
+    </div>
+
+  @if (isLoading()) {
+    <div class="flex justify-center py-10">
+      <div class="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+    </div>
+  }
+
+   @if (error()) {
+    <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+      {{ error() }}
+    </div>
+  }
+
+   @if (!isLoading() && !error()) {
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+          <tr>
+            <th class="px-4 py-3"></th>
+            <th class="px-4 py-3">Name</th>
+            <th class="px-4 py-3">Address</th>
+            <th class="px-4 py-3">Profession</th>
+            <th class="px-4 py-3">Favorite</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (garage of displayedGarages(); track $index) {
+            <tr class="border-t hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <input
+                  type="checkbox"
+                  [checked]="selected().has(garage.externalGarageId)"
+                  [disabled]="isFavorite(garage.externalGarageId)"
+                  (change)="toggleSelection(garage.externalGarageId)" />
+              </td>
+
+              <td class="px-4 py-3 font-medium">
+                {{ garage.name }}
+              </td>
+
+              <td class="px-4 py-3">
+                {{ garage.address }}
+              </td>
+
+              <td class="px-4 py-3">
+                {{ garage.profession || '-' }}
+              </td>
+
+              <td class="px-4 py-3">
+                @if (isFavorite(garage.externalGarageId)) {
+                  <button
+                    (click)="removeFavorite(garage.externalGarageId)"
+                    class="text-yellow-500">
+                    ★
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
